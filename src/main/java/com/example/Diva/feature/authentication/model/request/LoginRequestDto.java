@@ -1,4 +1,4 @@
-package com.example.Diva.security.model.request;
+package com.example.Diva.feature.authentication.model.request;
 
 import lombok.Data;
 

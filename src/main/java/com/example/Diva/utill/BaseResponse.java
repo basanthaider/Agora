@@ -7,13 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseResponse {
+public class BaseResponse<T> {
     private boolean success;
     private String message;
-    private Object data;
+    private T data;
 
-    public BaseResponse(boolean success, String message) {
-        this.message = message;
-        this.success = success;
-    }
 }

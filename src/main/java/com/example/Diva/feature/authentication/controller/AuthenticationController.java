@@ -1,9 +1,9 @@
-package com.example.Diva.security.controller;
+package com.example.Diva.feature.authentication.controller;
 
-import com.example.Diva.security.model.request.LoginRequestDto;
-import com.example.Diva.security.model.request.RegisterRequestDto;
-import com.example.Diva.security.model.response.AuthenticationResponseDto;
-import com.example.Diva.security.service.AuthenticationService;
+import com.example.Diva.feature.authentication.model.request.LoginRequestDto;
+import com.example.Diva.feature.authentication.model.request.LogoutRequestDto;
+import com.example.Diva.feature.authentication.model.request.RegisterRequestDto;
+import com.example.Diva.feature.authentication.service.implementation.AuthenticationService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +24,16 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponseDto> register(@RequestBody RegisterRequestDto request) {
+    public ResponseEntity<Object> register(@RequestBody RegisterRequestDto request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseDto> authenticate(@RequestBody LoginRequestDto request) {
+    public ResponseEntity<Object> authenticate(@RequestBody LoginRequestDto request) {
         return ResponseEntity.ok(authenticationService.login(request));
     }
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request) {
+    public ResponseEntity<Object> logout(HttpServletRequest request) {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -41,8 +41,8 @@ public class AuthenticationController {
         }
 
         String token = authHeader.substring(7);
-        authenticationService.logout(token);
-
-        return ResponseEntity.ok("Logged out successfully");
+        LogoutRequestDto logoutRequestDto = new LogoutRequestDto();
+        logoutRequestDto.setToken(token);
+       return ResponseEntity.ok( authenticationService.logout(logoutRequestDto));
     }
 }

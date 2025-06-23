@@ -1,4 +1,4 @@
-package com.example.Diva.security.model.response;
+package com.example.Diva.feature.authentication.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.Diva.security.config;
+package com.example.Diva.config;
 
 import com.example.Diva.security.service.JwtAuthFilter;
 import com.example.Diva.security.service.OAuth2SuccessHandler;
