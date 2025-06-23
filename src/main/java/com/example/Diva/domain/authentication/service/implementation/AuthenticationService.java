@@ -1,13 +1,13 @@
-package com.example.Diva.feature.authentication.service.implementation;
+package com.example.Diva.domain.authentication.service.implementation;
 
 import com.example.Diva.entity.User;
-import com.example.Diva.feature.authentication.model.request.LogoutRequestDto;
-import com.example.Diva.feature.authentication.service.contractor.Authentication;
+import com.example.Diva.domain.authentication.model.request.LogoutRequestDto;
+import com.example.Diva.domain.authentication.service.contractor.Authentication;
 import com.example.Diva.repository.UserRepository;
 import com.example.Diva.security.entity.Token;
-import com.example.Diva.feature.authentication.model.request.LoginRequestDto;
-import com.example.Diva.feature.authentication.model.request.RegisterRequestDto;
-import com.example.Diva.feature.authentication.model.response.AuthenticationResponseDto;
+import com.example.Diva.domain.authentication.model.request.LoginRequestDto;
+import com.example.Diva.domain.authentication.model.request.RegisterRequestDto;
+import com.example.Diva.domain.authentication.model.response.AuthenticationResponseDto;
 import com.example.Diva.security.repository.TokenRepository;
 import com.example.Diva.security.service.JwtService;
 import com.example.Diva.utill.BaseEnums;

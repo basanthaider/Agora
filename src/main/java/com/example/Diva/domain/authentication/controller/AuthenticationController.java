@@ -1,9 +1,9 @@
-package com.example.Diva.feature.authentication.controller;
+package com.example.Diva.domain.authentication.controller;
 
-import com.example.Diva.feature.authentication.model.request.LoginRequestDto;
-import com.example.Diva.feature.authentication.model.request.LogoutRequestDto;
-import com.example.Diva.feature.authentication.model.request.RegisterRequestDto;
-import com.example.Diva.feature.authentication.service.implementation.AuthenticationService;
+import com.example.Diva.domain.authentication.model.request.LoginRequestDto;
+import com.example.Diva.domain.authentication.model.request.LogoutRequestDto;
+import com.example.Diva.domain.authentication.model.request.RegisterRequestDto;
+import com.example.Diva.domain.authentication.service.implementation.AuthenticationService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

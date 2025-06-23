@@ -1,4 +1,4 @@
-package com.example.Diva.feature.authentication.model.request;
+package com.example.Diva.domain.authentication.model.request;
 
 import com.example.Diva.utill.BaseEnums;
 import jakarta.validation.constraints.Email;
