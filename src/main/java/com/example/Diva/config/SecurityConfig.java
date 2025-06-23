@@ -38,6 +38,9 @@ public class SecurityConfig  {
                                 "/api/auth/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/v1/merchant/**").hasAuthority("MERCHANT") // Merchant-only paths
+                        .requestMatchers("/api/v1/customer/**").hasAuthority("CUSTOMER") // customer-only paths
+
                         // All other requests require authentication
                         .anyRequest().authenticated()
                 )
