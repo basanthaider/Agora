@@ -2,7 +2,7 @@ package com.example.Diva.domain.authentication.service.implementation;
 
 import com.example.Diva.entity.User;
 import com.example.Diva.domain.authentication.model.request.LogoutRequestDto;
-import com.example.Diva.domain.authentication.service.contractor.Authentication;
+import com.example.Diva.domain.authentication.service.contractor.AuthenticationService;
 import com.example.Diva.repository.UserRepository;
 import com.example.Diva.security.entity.Token;
 import com.example.Diva.domain.authentication.model.request.LoginRequestDto;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AuthenticationService implements Authentication {
+public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -48,14 +48,14 @@ public class AuthenticationService implements Authentication {
                 .enabled(true)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .provider("LOCAL")
-                .role(BaseEnums.Role.CUSTOMER)
+                .role(request.getRole())
                 .build();
 
         userRepository.save(user);
 
-        String jwt = jwtService.generateToken(user.getEmail());
+        String jwt = jwtService.generateToken(user);
         saveUserToken(jwt, user);
-        AuthenticationResponseDto responseDto = new AuthenticationResponseDto(jwt);
+        AuthenticationResponseDto responseDto = new AuthenticationResponseDto(jwt,user.getRole(),user.getName(),user.getEmail());
 
         return new ResponseEntity<>(new BaseResponse<>(true, "You have just registered successfully", responseDto), HttpStatus.CREATED);
 
@@ -82,10 +82,10 @@ public class AuthenticationService implements Authentication {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found after successful authentication (this should not happen)")); // Added more descriptive message
 
-        String jwt = jwtService.generateToken(user.getEmail());
+        String jwt = jwtService.generateToken(user);
         saveUserToken(jwt, user);
         log.info("Login successful, JWT generated for email: {}", request.getEmail());
-        AuthenticationResponseDto responseDto = new AuthenticationResponseDto(jwt);
+        AuthenticationResponseDto responseDto = new AuthenticationResponseDto(jwt,user.getRole(),user.getName(),user.getEmail());
 
         return new ResponseEntity<>(new BaseResponse<>(true, "Logged in successfully", responseDto), HttpStatus.OK);
     }
