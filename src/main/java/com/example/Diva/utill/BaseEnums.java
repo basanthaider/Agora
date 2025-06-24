@@ -9,6 +9,9 @@ public class BaseEnums {
     public enum OrderStatus {
         CONFIRMED, PACKED, OUT_F0R_DELIVERY, DELIVERED, CANCELLED
     }
+    public enum CategoryType {
+        MEN, WOMEN
+    }
 
 
 
