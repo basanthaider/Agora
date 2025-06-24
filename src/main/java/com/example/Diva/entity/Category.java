@@ -1,11 +1,19 @@
 package com.example.Diva.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.example.Diva.utill.BaseEnums;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 @Entity
 public class Category extends BaseEntity {
     @Id
@@ -13,13 +21,11 @@ public class Category extends BaseEntity {
     private Long id;
 
     private String name;
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Category parentCategory;
-    @JsonManagedReference
-    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
-    private List<Category> subCategories;
+    @Enumerated(EnumType.STRING)
+    private BaseEnums.CategoryType type; // MEN, WOMEN
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<SubCategory> subCategories = new ArrayList<>();
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
