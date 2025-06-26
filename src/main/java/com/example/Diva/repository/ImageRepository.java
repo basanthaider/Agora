@@ -1,9 +1,12 @@
 package com.example.Diva.repository;
 
-import com.example.Diva.entity.Image;
+import com.example.Diva.entity.ProductImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ImageRepository extends JpaRepository<Image, Long> {
+import java.util.List;
 
-    // Additional query methods can be defined here if needed
+public interface ImageRepository extends JpaRepository<ProductImage, Long> {
+
+    List<ProductImage> findByVariantId(Long variantId);
+
 }
