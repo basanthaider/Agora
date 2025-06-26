@@ -1,6 +1,5 @@
 package com.example.Diva.entity;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Color extends BaseEntity {
+public class ProductImage extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String hexCode;
+    private String imageUrl;
+    @ManyToOne
+    private ProductVariant variant;
 }

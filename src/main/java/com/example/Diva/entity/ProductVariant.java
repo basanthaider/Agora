@@ -1,9 +1,19 @@
 package com.example.Diva.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.PositiveOrZero;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class ProductVariant extends BaseEntity {
     @Id
@@ -18,10 +28,12 @@ public class ProductVariant extends BaseEntity {
 
     @ManyToOne
     private Size size;
-
+    @PositiveOrZero
     private Double price;
-    private Integer stock;
+    @Min(0)
+    private Integer stockQuantity;
+    private String sku;
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
-    private List<Image> images;
+    private List<ProductImage> images;
 }
