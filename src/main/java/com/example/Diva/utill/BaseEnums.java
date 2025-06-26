@@ -3,7 +3,7 @@ package com.example.Diva.utill;
 public class BaseEnums {
 
     public enum Role {
-        MERCHANT, CUSTOMER
+        MERCHANT, CUSTOMER , ADMIN
     }
 
     public enum OrderStatus {
