@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -21,7 +22,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-@Configuration @EnableWebSecurity @RequiredArgsConstructor
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig  {
     private final JwtAuthFilter jwtFilter;
     private final UserDetailsService userDetailsService;
@@ -37,10 +41,8 @@ public class SecurityConfig  {
                                 "/oauth2/**",
                                 "/api/auth/**",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/api/v1/merchant/**").hasAuthority("MERCHANT") // Merchant-only paths
-                        .requestMatchers("/api/v1/customer/**").hasAuthority("CUSTOMER") // customer-only paths
-
+                                "/v3/api-docs/**",
+                                "/error").permitAll()
                         // All other requests require authentication
                         .anyRequest().authenticated()
                 )
