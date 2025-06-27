@@ -7,4 +7,6 @@ public interface ProductService {
     ResponseEntity<Object> createProduct(ProductRequestDto dto);
     ResponseEntity<Object> getAllProducts();
     ResponseEntity<Object> getProductById(Long id);
+    ResponseEntity<Object> updateProduct(Long id, ProductRequestDto dto);
+    ResponseEntity<Object> deleteProduct(Long id);
 }

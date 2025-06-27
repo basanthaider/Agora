@@ -93,4 +93,51 @@ public class ProductServiceImpl implements ProductService {
         ProductResponseDto responseDto = toResponse(product);
         return new ResponseEntity<>(new BaseResponse<>(true, "Product retrieved successfully", responseDto), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Object> updateProduct(Long id, ProductRequestDto dto) {
+        if (!productRepository.existsById(id)) {
+            return new ResponseEntity<>(new BaseResponse<>(false, "Product not found", null), HttpStatus.NOT_FOUND);
+        }
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        Category category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        Brand brand = brandRepository.findById(dto.getBrandId())
+                .orElseThrow(() -> new RuntimeException("Brand not found"));
+        Product updatedProduct = ProductMapper.toEntity(dto, category, brand);
+        updatedProduct.setId(existingProduct.getId());
+
+        List<ProductVariant> updatedVariants = new ArrayList<>();
+        for (ProductVariantRequestDto variantDto : dto.getVariants()) {
+            Color color = colorRepository.findById(variantDto.getColorId())
+                    .orElseThrow(() -> new RuntimeException("Color not found"));
+
+            Size size = sizeRepository.findById(variantDto.getSizeId())
+                    .orElseThrow(() -> new RuntimeException("Size not found"));
+
+            ProductVariant variant = ProductVariantMapper.toEntity(variantDto, updatedProduct, color, size);
+
+            // Set back-reference for each image
+            variant.getImages().forEach(image -> image.setVariant(variant));
+
+            updatedVariants.add(variant);
+        }
+        updatedProduct.setVariants(updatedVariants);
+        productRepository.save(updatedProduct); // cascade will save variants + images
+        ProductResponseDto response = toResponse(updatedProduct);
+        return new ResponseEntity<>(new BaseResponse<>(true, "Product updated successfully", response), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteProduct(Long id) {
+        if (!productRepository.existsById(id)) {
+            return new ResponseEntity<>(new BaseResponse<>(false, "Product not found", null), HttpStatus.NOT_FOUND);
+        }
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        productRepository.delete(product);
+
+        return new ResponseEntity<>(new BaseResponse<>(true, "Product Deleted successfully", null), HttpStatus.OK);
+    }
 }
