@@ -56,6 +56,7 @@ public class ProductVariantMapper {
     }
     public static ColorResponseDto toResponse(Color color){
         return ColorResponseDto.builder()
+                .id(color.getId())
                 .name(color.getName())
                 .hexCode(color.getHexCode())
                 .build();
@@ -67,6 +68,7 @@ public class ProductVariantMapper {
     }
     public static SizeResponseDto toResponse(Size size){
         return SizeResponseDto.builder()
+                .id(size.getId())
                 .name(size.getName())
                 .build();
     }
