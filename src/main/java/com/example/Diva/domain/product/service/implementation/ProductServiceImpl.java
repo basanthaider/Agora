@@ -71,11 +71,26 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Object> getAllProducts() {
-        return null;
+        if( productRepository.count() == 0) {
+            return new ResponseEntity<>(new BaseResponse<>(false, "No products found",null), HttpStatus.NOT_FOUND);
+        }
+        List<Product> products = productRepository.findAll();
+        List<ProductResponseDto> responseDtos = new ArrayList<>();
+        for (Product product : products) {
+            ProductResponseDto responseDto = toResponse(product);
+            responseDtos.add(responseDto);
+        }
+        return new ResponseEntity<>(new BaseResponse<>(true, "Products retrieved successfully", responseDtos), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Object> getProductById(Long id) {
-        return null;
+        if (!productRepository.existsById(id)) {
+            return new ResponseEntity<>(new BaseResponse<>(false, "Product not found", null), HttpStatus.NOT_FOUND);
+        }
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        ProductResponseDto responseDto = toResponse(product);
+        return new ResponseEntity<>(new BaseResponse<>(true, "Product retrieved successfully", responseDto), HttpStatus.OK);
     }
 }
