@@ -18,7 +18,7 @@ public class BrandController {
      public ResponseEntity<Object> createBrand(@RequestBody BrandRequestDto brandRequestDto) {
          return ResponseEntity.ok(brandService.createBrand(brandRequestDto));
      }
-     @GetMapping()
+     @GetMapping("/getAll")
      public ResponseEntity<Object> getAllBrands() {
          return ResponseEntity.ok(brandService.getAllBrands());
      }

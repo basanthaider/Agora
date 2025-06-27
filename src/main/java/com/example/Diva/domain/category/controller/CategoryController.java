@@ -27,7 +27,7 @@ public class CategoryController {
         return ResponseEntity.ok(service.addSubCategory(dto));
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<?> getAll() {
 
         return ResponseEntity.ok(service.getAllCategories());
