@@ -35,9 +35,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Object> createProduct(ProductRequestDto dto) {
+        if(!categoryRepository.existsById(dto.getCategoryId())) {
+            return new ResponseEntity<>(new BaseResponse<>(false, "Category not found", null), HttpStatus.NOT_FOUND);
+        }
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
-
+        if (!brandRepository.existsById(dto.getBrandId())) {
+            return new ResponseEntity<>(new BaseResponse<>(false, "Brand not found", null), HttpStatus.NOT_FOUND);
+        }
         Brand brand = brandRepository.findById(dto.getBrandId())
                 .orElseThrow(() -> new RuntimeException("Brand not found"));
 
