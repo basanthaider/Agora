@@ -5,11 +5,14 @@ import com.example.Diva.domain.product.model.mapper.ProductVariantMapper;
 import com.example.Diva.domain.product.model.request.ColorRequestDto;
 import com.example.Diva.domain.product.model.request.SizeRequestDto;
 import com.example.Diva.domain.product.model.response.ColorResponseDto;
+import com.example.Diva.domain.product.model.response.ProductVariantResponseDto;
 import com.example.Diva.domain.product.model.response.SizeResponseDto;
 import com.example.Diva.domain.product.service.contractor.ProductVariantsService;
 import com.example.Diva.entity.Color;
+import com.example.Diva.entity.ProductVariant;
 import com.example.Diva.entity.Size;
 import com.example.Diva.repository.ColorRepository;
+import com.example.Diva.repository.ProductVariantRepository;
 import com.example.Diva.repository.SizeRepository;
 import com.example.Diva.utill.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +25,16 @@ import java.util.List;
 @Service
 public class ProductVariantsServiceImpl implements ProductVariantsService {
     @Autowired
-    ColorRepository SizeRepository;
+    ColorRepository colorRepository;
     @Autowired
     SizeRepository sizeRepository;
+    @Autowired
+    ProductVariantRepository productVariantRepository;
 
     @Override
     public ResponseEntity<Object> createColor(ColorRequestDto colorRequestDto) {
         Color color = ProductVariantMapper.toEntity(colorRequestDto);
-        SizeRepository.save(color);
+        colorRepository.save(color);
         ColorResponseDto response = ProductVariantMapper.toResponse(color);
 
         return new ResponseEntity<>(new BaseResponse<>(true, "Color created successfully", response), HttpStatus.CREATED);
@@ -37,20 +42,20 @@ public class ProductVariantsServiceImpl implements ProductVariantsService {
 
     @Override
     public ResponseEntity<Object> DeleteColor(Long id) {
-        if (!SizeRepository.existsById(id)) {
+        if (!colorRepository.existsById(id)) {
             return new ResponseEntity<>(new BaseResponse<>(false, "Color not found", null), HttpStatus.NOT_FOUND);
         }
-        SizeRepository.deleteById(id);
+        colorRepository.deleteById(id);
         return new ResponseEntity<>(new BaseResponse<>(true, "Color deleted successfully", null), HttpStatus.OK);
 
     }
 
     @Override
     public ResponseEntity<Object> getAllColors() {
-        if (SizeRepository.findAll().isEmpty()) {
+        if (colorRepository.findAll().isEmpty()) {
             return new ResponseEntity<>(new BaseResponse<>(false, "No colors found", null), HttpStatus.NOT_FOUND);
         }
-        List<ColorResponseDto> ColorResponseDtos = SizeRepository.findAll()
+        List<ColorResponseDto> ColorResponseDtos = colorRepository.findAll()
                 .stream()
                 .map(ProductVariantMapper::toResponse)
                 .toList();
@@ -72,20 +77,43 @@ public class ProductVariantsServiceImpl implements ProductVariantsService {
         if (!sizeRepository.existsById(id)) {
             return new ResponseEntity<>(new BaseResponse<>(false, "Size not found", null), HttpStatus.NOT_FOUND);
         }
-        SizeRepository.deleteById(id);
+        colorRepository.deleteById(id);
         return new ResponseEntity<>(new BaseResponse<>(true, "Size deleted successfully", null), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Object> getAllSizes() {
-        if (SizeRepository.findAll().isEmpty()) {
+        if (colorRepository.findAll().isEmpty()) {
             return new ResponseEntity<>(new BaseResponse<>(false, "No colors found", null), HttpStatus.NOT_FOUND);
         }
-        List<ColorResponseDto> sizeResponseDtos = SizeRepository.findAll()
+        List<ColorResponseDto> sizeResponseDtos = colorRepository.findAll()
                 .stream()
                 .map(ProductVariantMapper::toResponse)
                 .toList();
         return new ResponseEntity<>(new BaseResponse<>(true, "Colors retrieved successfully", sizeResponseDtos), HttpStatus.OK);
+
+    }
+
+    @Override
+    public ResponseEntity<Object> getVariantById(Long id) {
+        if (!productVariantRepository.existsById(id)) {
+            return new ResponseEntity<>(new BaseResponse<>(false, "Variant not found", null), HttpStatus.NOT_FOUND);
+        }
+        ProductVariant variant = productVariantRepository.findById(id).get();
+        ProductVariantResponseDto response = ProductVariantMapper.toResponse(variant);
+        return new ResponseEntity<>(new BaseResponse<>(true, "Variant retrieved successfully", response), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> getAllVariants() {
+        if (!productVariantRepository.findAll().isEmpty()) {
+            return new ResponseEntity<>(new BaseResponse<>(false, "Variants not found", null), HttpStatus.NOT_FOUND);
+        }
+        List<ProductVariantResponseDto> variantResponseDtos = productVariantRepository.findAll()
+                .stream()
+                .map(ProductVariantMapper::toResponse)
+                .toList();
+        return new ResponseEntity<>(new BaseResponse<>(true, "Variants retrieved successfully", variantResponseDtos), HttpStatus.OK);
 
     }
 }

@@ -12,6 +12,8 @@ public interface ProductVariantsService {
     ResponseEntity<Object>createSize(SizeRequestDto sizeRequestDto);
     ResponseEntity<Object> DeleteSize(Long id);
     ResponseEntity<Object>getAllSizes();
+    ResponseEntity<Object> getVariantById(Long id);
+    ResponseEntity<Object> getAllVariants();
 
 
 

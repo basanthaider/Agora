@@ -46,6 +46,16 @@ public class ProductsVariantsController {
     ResponseEntity<Object> DeleteSize(@PathVariable Long id) {
         return ResponseEntity.ok(productVariantsService.DeleteSize(id));
     }
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('MERCHANT')or hasAuthority('ADMIN')")
+    ResponseEntity<Object> getVariantById(@PathVariable Long id) {
+        return ResponseEntity.ok(productVariantsService.getVariantById(id));
+    }
+    @GetMapping()
+    @PreAuthorize("hasAuthority('MERCHANT')or hasAuthority('ADMIN')")
+    ResponseEntity<Object> getAllVariants() {
+        return ResponseEntity.ok(productVariantsService.getAllVariants());
+    }
 
 
 }
