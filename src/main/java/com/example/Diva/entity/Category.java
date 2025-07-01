@@ -21,12 +21,8 @@ public class Category extends BaseEntity {
     private Long id;
 
     private String name;
-    @Enumerated(EnumType.STRING)
-    private BaseEnums.CategoryType type; // MEN, WOMEN
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<SubCategory> subCategories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
 }

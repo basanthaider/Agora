@@ -17,7 +17,6 @@ public class CategoryMapper {
         return Category
                 .builder()
                 .name(dto.getName())
-                .type(dto.getType())
                 .build();
 
     }
@@ -26,7 +25,6 @@ public class CategoryMapper {
         return CategoryResponseDto.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .type(category.getType())
                 .subCategories(
                         category.getSubCategories() != null
                                 ? category.getSubCategories()
@@ -49,6 +47,8 @@ public class CategoryMapper {
         return SubCategoryResponseDto.builder()
                 .id(subCategory.getId())
                 .name(subCategory.getName())
+                .parentCategoryId(subCategory.getCategory().getId())
+                .parentCategoryName(subCategory.getCategory().getName())
                 .build();
     }
 

@@ -39,8 +39,8 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         SubCategory sub = CategoryMapper.toSubCategory(subCategoryRequestDto, category);
          subCategoryRepository.save(sub);
-        CategoryResponseDto categoryResponseDto = CategoryMapper.toResponse(category);
-        return new ResponseEntity<>(new BaseResponse<>(true, "Subcategory added successfully", categoryResponseDto), HttpStatus.CREATED);
+         SubCategoryResponseDto subCategoryResponseDto = CategoryMapper.toSubCategoryResponse(sub);
+        return new ResponseEntity<>(new BaseResponse<>(true, "Subcategory added successfully",subCategoryResponseDto ), HttpStatus.CREATED);
     }
 
     @Override

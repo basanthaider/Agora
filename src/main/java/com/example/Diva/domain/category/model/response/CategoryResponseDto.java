@@ -10,6 +10,5 @@ import java.util.List;
 public class CategoryResponseDto {
     private Long id;
     private String name;
-    private BaseEnums.CategoryType type;
     private List<SubCategoryResponseDto> subCategories;
 }
