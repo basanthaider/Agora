@@ -3,15 +3,15 @@ package com.example.Diva.domain.product.model.mapper;
 import com.example.Diva.domain.product.model.request.ProductRequestDto;
 import com.example.Diva.domain.product.model.response.ProductResponseDto;
 import com.example.Diva.entity.Brand;
-import com.example.Diva.entity.Category;
 import com.example.Diva.entity.Product;
+import com.example.Diva.entity.SubCategory;
 
 public class ProductMapper {
-    public static Product toEntity(ProductRequestDto dto, Category category, Brand brand) {
+    public static Product toEntity(ProductRequestDto dto, SubCategory subCategory, Brand brand) {
         return Product.builder()
                 .name(dto.getName())
                 .description(dto.getDescription())
-                .category(category)
+                .subcategory(subCategory)
                 .brand(brand)
                 .build();
     }
@@ -22,7 +22,7 @@ public class ProductMapper {
                 .name(product.getName())
                 .description(product.getDescription())
                 .brandName(product.getBrand().getName())
-                .categoryName(product.getCategory().getName())
+                .categoryName(product.getSubcategory().getName())
                 .variants(product.getVariants()
                         .stream()
                         .map(ProductVariantMapper::toResponse)

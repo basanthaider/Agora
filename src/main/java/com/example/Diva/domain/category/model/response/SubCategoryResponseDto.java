@@ -8,4 +8,6 @@ import lombok.Data;
 public class SubCategoryResponseDto {
     private Long id;
     private String name;
+    private Long parentCategoryId;
+    private String parentCategoryName;
 }

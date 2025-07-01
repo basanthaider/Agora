@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private SubCategoryRepository subCategoryRepository;
     @Autowired
     private BrandRepository brandRepository;
     @Autowired
@@ -35,10 +35,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Object> createProduct(ProductRequestDto dto) {
-        if(!categoryRepository.existsById(dto.getCategoryId())) {
+        if(!subCategoryRepository.existsById(dto.getCategoryId())) {
             return new ResponseEntity<>(new BaseResponse<>(false, "Category not found", null), HttpStatus.NOT_FOUND);
         }
-        Category category = categoryRepository.findById(dto.getCategoryId())
+        SubCategory subCategory = subCategoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         if (!brandRepository.existsById(dto.getBrandId())) {
             return new ResponseEntity<>(new BaseResponse<>(false, "Brand not found", null), HttpStatus.NOT_FOUND);
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
         Brand brand = brandRepository.findById(dto.getBrandId())
                 .orElseThrow(() -> new RuntimeException("Brand not found"));
 
-        Product product = ProductMapper.toEntity(dto, category, brand);
+        Product product = ProductMapper.toEntity(dto, subCategory, brand);
 
         // Build variants
         List<ProductVariant> variants = new ArrayList<>();
@@ -106,11 +106,11 @@ public class ProductServiceImpl implements ProductService {
         }
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-        Category category = categoryRepository.findById(dto.getCategoryId())
+        SubCategory subCategory = subCategoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         Brand brand = brandRepository.findById(dto.getBrandId())
                 .orElseThrow(() -> new RuntimeException("Brand not found"));
-        Product updatedProduct = ProductMapper.toEntity(dto, category, brand);
+        Product updatedProduct = ProductMapper.toEntity(dto, subCategory, brand);
         updatedProduct.setId(existingProduct.getId());
 
         List<ProductVariant> updatedVariants = new ArrayList<>();

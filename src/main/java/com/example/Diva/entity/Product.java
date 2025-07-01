@@ -22,7 +22,7 @@ public class Product extends BaseEntity {
     private String description;
 
     @ManyToOne
-    private Category category;
+    private SubCategory subcategory;
 
     @ManyToOne
     private Brand brand;
