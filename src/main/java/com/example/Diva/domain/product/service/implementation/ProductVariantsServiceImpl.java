@@ -106,7 +106,7 @@ public class ProductVariantsServiceImpl implements ProductVariantsService {
 
     @Override
     public ResponseEntity<Object> getAllVariants() {
-        if (!productVariantRepository.findAll().isEmpty()) {
+        if (productVariantRepository.findAll().isEmpty()) {
             return new ResponseEntity<>(new BaseResponse<>(false, "Variants not found", null), HttpStatus.NOT_FOUND);
         }
         List<ProductVariantResponseDto> variantResponseDtos = productVariantRepository.findAll()
